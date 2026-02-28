@@ -1,90 +1,105 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hyper Ball Game</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; }
-        canvas { border: 1px solid black; }
-        #menu { margin: 20px; }
-        .button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #212121;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        canvas {
+            border: 1px solid #fff;
+        }
+        #menu {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px;
+        }
+        .style-button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+        #hud {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
     </style>
 </head>
 <body>
     <div id="menu">
-        <button class="button" id="futu">未来</button>
-        <button class="button" id="mini">简约</button>
+        <button class="style-button" id="futuConfig">未来</button>
+        <button class="style-button" id="miniConfig">簡約</button>
     </div>
     <canvas id="gameCanvas" width="800" height="600"></canvas>
+    <div id="hud">
+        <p>Level: <span id="level">1</span></p>
+        <p>Score: <span id="score">0</span></p>
+        <p>Target: <span id="target">100</span></p>
+        <p>Life: <span id="life">3</span></p>
+        <button id="restart">Restart</button>
+        <button id="sound">Toggle Sound</button>
+        <button id="leaderboard">Leaderboard</button>
+        <button id="pause">Pause</button>
+    </div>
     <script>
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
+        // Game Variables
+        let score = 0;
+        let level = 1;
+        let target = 100;
+        let life = 3;
         let orbs = [];
         let obstacles = [];
-        let powerups = [];
-        let score = 0;
-        const localStorageKey = 'hyperBallLeaderBoard';
 
-        // Game settings
-        const gameConfig = {
-            style: '',
-            audio: true
-        };
-
-        document.getElementById('futu').onclick = function() {
-            gameConfig.style = 'futu';
-            initGame();
-        };
-
-        document.getElementById('mini').onclick = function() {
-            gameConfig.style = 'mini';
-            initGame();
-        };
-
-        function initGame() {
-            // Initialize game state
-            orbs = [];
-            obstacles = [];
-            powerups = [];
-            score = 0;
-            startGame();
+        // Initialize Game
+        function init() {
+            const canvas = document.getElementById('gameCanvas');
+            const ctx = canvas.getContext('2d');
+            // Game Logic and Rendering Loop
+            requestAnimationFrame(gameLoop);
         }
 
-        function startGame() {
-            // Main game loop
-            updateGame();
-        }
-
-        function updateGame() {
+        function gameLoop() {
+            // Clear canvas
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            // Game mechanics to collect orbs, avoid obstacles, collect powerups
-            drawGameObjects();
-            requestAnimationFrame(updateGame);
+            // Update Game Elements
+            spawnOrbs();
+            drawElements();
+            requestAnimationFrame(gameLoop);
         }
 
-        function drawGameObjects() {
-            // Drawing balls, obstacles and other objects
-            ctx.fillStyle = 'blue';
-            ctx.fillRect(50, 50, 50, 50);
-            // More drawing logic
+        function spawnOrbs() {
+            // Logic to spawn orbs
         }
 
-        // Keyboard and touch control logic
-        document.addEventListener('keydown', handleKeyPress);
-        function handleKeyPress(event) {
-            // Handle controls
+        function drawElements() {
+            // Logic to draw orbs and obstacles
         }
 
-        // Audio effects
-        let audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        // Event Listeners for Controls
+        document.getElementById('restart').addEventListener('click', init);
+        document.getElementById('futuConfig').addEventListener('click', () => changeStyle(true));
+        document.getElementById('miniConfig').addEventListener('click', () => changeStyle(false));
 
-        // Leaderboard using localStorage
-        function saveScore() {
-            let scores = JSON.parse(localStorage.getItem(localStorageKey)) || [];
-            scores.push(score);
-            localStorage.setItem(localStorageKey, JSON.stringify(scores));
+        function changeStyle(isFutu) {
+            // Change styles based on selected configuration
         }
+
+        // Web Audio and Local Storage Logic
+        // ...
+
+        init();
     </script>
 </body>
 </html>
