@@ -1,1 +1,90 @@
-<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" /><title>Hyper Ball</title>[... full HTML content here ...]</body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hyper Ball Game</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        canvas { border: 1px solid black; }
+        #menu { margin: 20px; }
+        .button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div id="menu">
+        <button class="button" id="futu">未来</button>
+        <button class="button" id="mini">简约</button>
+    </div>
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        let orbs = [];
+        let obstacles = [];
+        let powerups = [];
+        let score = 0;
+        const localStorageKey = 'hyperBallLeaderBoard';
+
+        // Game settings
+        const gameConfig = {
+            style: '',
+            audio: true
+        };
+
+        document.getElementById('futu').onclick = function() {
+            gameConfig.style = 'futu';
+            initGame();
+        };
+
+        document.getElementById('mini').onclick = function() {
+            gameConfig.style = 'mini';
+            initGame();
+        };
+
+        function initGame() {
+            // Initialize game state
+            orbs = [];
+            obstacles = [];
+            powerups = [];
+            score = 0;
+            startGame();
+        }
+
+        function startGame() {
+            // Main game loop
+            updateGame();
+        }
+
+        function updateGame() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            // Game mechanics to collect orbs, avoid obstacles, collect powerups
+            drawGameObjects();
+            requestAnimationFrame(updateGame);
+        }
+
+        function drawGameObjects() {
+            // Drawing balls, obstacles and other objects
+            ctx.fillStyle = 'blue';
+            ctx.fillRect(50, 50, 50, 50);
+            // More drawing logic
+        }
+
+        // Keyboard and touch control logic
+        document.addEventListener('keydown', handleKeyPress);
+        function handleKeyPress(event) {
+            // Handle controls
+        }
+
+        // Audio effects
+        let audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+        // Leaderboard using localStorage
+        function saveScore() {
+            let scores = JSON.parse(localStorage.getItem(localStorageKey)) || [];
+            scores.push(score);
+            localStorage.setItem(localStorageKey, JSON.stringify(scores));
+        }
+    </script>
+</body>
+</html>
